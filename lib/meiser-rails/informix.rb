@@ -9,13 +9,31 @@ module MeiserRails
 
    module ClassMethods
     def baan_available?
-     IBM_DB.connect(Rails.application.config.meiser.baan, "", "").nil? ? false : true
+     begin
+      IBM_DB.connect(Rails.application.config.meiser.baan, "", "").nil? ? false : true
+     rescue
+      puts "Connection failed: #{IBM_DB::conn_errormsg}"
+     end
     end
 
-    def baan
-     if baan_available?
-      yield IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
-     end
+    def foreach_baan(query, params = nil, &block)
+      begin
+       conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
+
+       stmt = IBM_DB.prepare(conn,query)
+
+       if IBM_DB.execute(stmt, params)
+        while row = IBM_DB.fetch_assoc(stmt)
+         yield row
+        end
+        IBM_DB.free_result(stmt)
+       else
+        puts "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"
+       end
+
+      ensure
+       IBM_DB::close(conn)
+      end
     end
 
    end

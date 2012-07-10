@@ -20,9 +20,8 @@ module MeiserRails
       begin
        conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
 
-       stmt = IBM_DB.prepare(conn,query)
-
-       if IBM_DB.execute(stmt, params)
+       if stmt = IBM_DB.prepare(conn,query)
+        IBM_DB.execute(stmt, params)
         while row = IBM_DB.fetch_assoc(stmt)
          yield row
         end
@@ -30,9 +29,10 @@ module MeiserRails
        else
         puts "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"
        end
-
+      rescue
+       puts "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"
       ensure
-       IBM_DB::close(conn)
+       #IBM_DB::close(conn)
       end
     end
 

@@ -7,11 +7,11 @@ require "meiser-rails/version"
 Gem::Specification.new do |s|
   s.name        = "meiser-rails"
   s.version     = MeiserRails::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of MeiserRails."
-  s.description = "TODO: Description of MeiserRails."
+  s.authors     = ["Stephan Keller"]
+  s.email       = ["s.keller@meiser.de"]
+  s.homepage    = ""
+  s.summary     = ""
+  s.description = "Library for using Rails in Meiser company."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]

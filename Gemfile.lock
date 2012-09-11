@@ -2,7 +2,8 @@ PATH
   remote: .
   specs:
     meiser-rails (0.0.1)
-      rails (~> 3.2.6)
+      ibm_db (~> 2.5.10)
+      rails (>= 3.1.0)
 
 GEM
   remote: http://rubygems.org/
@@ -39,6 +40,8 @@ GEM
     erubis (2.7.0)
     hike (1.2.1)
     i18n (0.6.0)
+    ibm_db (2.5.10)
+      activerecord (>= 1.15.1)
     journey (1.0.4)
     jquery-rails (2.0.2)
       railties (>= 3.2.0, < 5.0)

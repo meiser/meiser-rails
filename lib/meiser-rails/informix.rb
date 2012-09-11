@@ -16,7 +16,10 @@ module MeiserRails
      end
     end
 
-    def foreach_baan(query, params = nil, &block)
+    def foreach_baan(query, params = [], &block)
+
+      params = informix_date_conversion(params)
+
       begin
        conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
 
@@ -27,14 +30,38 @@ module MeiserRails
         end
         IBM_DB.free_result(stmt)
        else
-        puts "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"
+        raise "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_STMT)}"
        end
       rescue
-       puts "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"
+       raise "Connection error: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"
       ensure
        #IBM_DB::close(conn)
       end
     end
+
+
+    def update_baan(query, params = [])
+      begin
+        params = informix_date_conversion(params)
+        conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
+        stmt = IBM_DB.prepare(conn, query)
+        return IBM_DB.execute(stmt,params)
+      rescue
+
+      ensure
+        IBM_DB::free_result(stmt)
+      end
+    end
+
+
+    private
+
+    def informix_date_conversion(params=[])
+      params.collect! do |v|
+        v.kind_of?(DateTime) ? v.strftime("%Y-%m-%d %H:%m:%S.000000") : v
+      end
+    end
+
 
    end
 

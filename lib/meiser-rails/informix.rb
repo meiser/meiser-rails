@@ -61,7 +61,7 @@ module MeiserRails
 
     def informix_date_conversion(params=[])
       params.collect! do |v|
-        v.kind_of?(DateTime) ? v.strftime("%Y-%m-%d %H:%m:%S.000000") : v
+        v.kind_of?(DateTime) ? v.utc.strftime("%Y-%m-%d %H:%M:%S.%6N") : v
       end
     end
 

@@ -33,6 +33,10 @@ module MeiserRails
    end
 
   end
+  
+  initializer "read_baan_informix_database_config",:after=> :load_config_initializers do |app|
+   MeiserRails::Db.establish_connection
+  end
 
  end
 

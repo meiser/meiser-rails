@@ -10,7 +10,8 @@ module MeiserRails
    module ClassMethods
     def baan_available?
      begin
-      IBM_DB.connect(Rails.application.config.meiser.baan, "", "").nil? ? false : true
+      MeiserRails::Db.connection.nil? ? false : true
+	  #IBM_DB.connect(Rails.application.config.meiser.baan, "", "").nil? ? false : true
      rescue
       puts "Connection failed: #{IBM_DB::conn_errormsg}"
      end
@@ -21,7 +22,8 @@ module MeiserRails
       params = informix_date_conversion(params)
 
       begin
-       conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
+       conn = MeiserRails::Db.connection
+	   #conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
 
        if stmt = IBM_DB.prepare(conn,query)
         IBM_DB.execute(stmt, params)
@@ -43,8 +45,9 @@ module MeiserRails
     def update_baan(query, params = [])
       begin
         params = informix_date_conversion(params)
-        conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
-        stmt = IBM_DB.prepare(conn, query)
+        #conn = IBM_DB.connect(Rails.application.config.meiser.baan, "", "")
+        conn = MeiserRails::Db.connection
+		stmt = IBM_DB.prepare(conn, query)
         return IBM_DB.execute(stmt,params)
       rescue
 

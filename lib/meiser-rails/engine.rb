@@ -5,19 +5,6 @@ module MeiserRails
 
   initializer "read_baan_informix_database_config",:before=> :load_config_initializers do |app|
 
-
-   #app.config.bla="Mike"
-    # example database.yml
-
-    #baan:
-    # database: erp
-    # host: BaanTest
-    # port: 9090
-    # protocol: TCPIP
-    # username: informix
-    # password: informix123
-    # parameterized: true
-
    config = Rails.configuration.database_configuration['baan']
    if config
     Informix::CONNECTION_PARAMS.each do |param|

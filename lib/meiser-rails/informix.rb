@@ -50,7 +50,7 @@ module MeiserRails
 		stmt = IBM_DB.prepare(conn, query)
         return IBM_DB.execute(stmt,params)
       rescue
-	raise "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_STMT)}"
+	raise "Statement execution failed"
       ensure
         IBM_DB::free_result(stmt)
       end

@@ -32,7 +32,7 @@ module MeiserRails
         end
         IBM_DB.free_result(stmt)
        else
-        raise "Statement execution failed: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_STMT)}"
+        raise "Statement execution failed: #{IBM_DB::getErrormsg(conn,stmt)}"
        end
       rescue
        raise "Connection error: #{IBM_DB::getErrormsg(conn,IBM_DB::DB_CONN)}"

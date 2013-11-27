@@ -15,6 +15,7 @@ module MeiserRails
     end
     MeiserConfig = Struct.new(:baan)
     app.config.meiser = MeiserConfig.new "DATABASE=#{config["database"]};HOSTNAME=#{config["host"]};PORT=#{config["port"]};PROTOCOL=#{config["protocol"]};UID=#{config["username"]};PWD=#{config["password"]};".freeze
+    MeiserRails::Db.establish_connection
    else
     Rails.logger.warn 'Please add baan database settings to your database.yml file to work correctly'
    end
